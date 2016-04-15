@@ -1,0 +1,465 @@
+% define parameter to switch between public version and my (extended) version.
+\newif\ifpublic
+\newif\ifprivate
+
+\publictrue
+\privatetrue
+
+\documentclass[10pt]{article}
+\usepackage[extreme]{savetrees}
+\usepackage{amsmath, amsthm}
+\usepackage{amssymb}
+\usepackage{url}
+%\usepackage[text={7in,26cm}]{geometry}
+%\usepackage[scale={0.9}]{geometry}
+\usepackage{datetime}
+\usdate
+
+\usepackage{hyperref}
+
+\input{mathdefs}
+
+\usepackage{tabu}
+\usepackage{longtable}
+%\usepackage{tabularx}
+\setlength{\parindent}{0pt}
+
+
+\def\c#1{{\small #1}}
+\def\c#1{{\small\verb|#1|}}
+\def\c#1{{\small\texttt{#1}}}
+\def\np#1{{\small\tt np.#1}}
+\def\pl#1{{\small\tt pl.#1}}
+\def\sp#1{{\small\tt sp.#1}}
+\def\m#1{{\small\tt m.#1}}
+\def\s{\small}  % only of /verb environments; adjust to same size as in \c
+
+\def\starttable#1{\begin{longtable}{p{1.4in}p{1.3in}p{1.3in}p{1.3in}p{1.3in}}
+    {\bf \emph{#1}} & {\bf\small Python} & {\bf\small R} & {\bf\small IDL} &
+    {\bf\small Matlab/Octave}\\
+    \hline \endhead
+    \hline \multicolumn5{l}{\small Continued on the next page...} \\ \endfoot
+    \hline\endlastfoot
+}
+\def\stoptable{\end{longtable}\vspace{-1em}}
+%\def\R #1|#2|#3|#4|#5{ #1&#2&#3&#4&#5}
+%\def\RR #1&#2&#3&#4&#5{ #1&#2&#3&#4&#5}
+
+
+\hyphenation{example examples diary summary}
+
+\title{Interactive Scientific Programming Languages --- Python, R, IDL, Matlab/Octave}
+
+\begin{document}
+%\pagestyle{headings}
+\begin{center}
+  {\large\bfseries Interactive Scientific Programming Languages}\\
+  Reference Card --- mxn, \today, \currenttime
+  \ifprivate
+  %{Reference Card --- mxn, \today, \currenttime}
+  %{\currenttime, \today --- Maxim Neumann}
+  %{Maxim Neumann --- \today, \currenttime}
+  \else
+  {Reference Card}
+  \fi
+\end{center}
+
+
+%\renewcommand{\verbatim@font}{\ttfamily\small}
+% \renewcommand{\ttdefault}{aett}
+% {\tt just a test}
+% \begin{verbatim}
+% just a test
+% \end{verbatim}
+% \texttt{just a test}\\
+% \verb|just a test|
+
+
+%\verb|ipython -pylab|
+
+\starttable{Start}
+Start session & \c{ipython -pylab} & \c{RStudio} & \c{idl} & \c{octave -q} \\
+Run code from file & \c{execfile('file.py')} or \c{run file.py} &
+\c{source('file.R')} & \c{\@file.pro} or \c{.run file.pro} & \c{file}  \\
+Command history & \c{hist -n} & \c{history()} & \c{help,/rec} & \c{history}\\
+Save command history & & \c{savehistory(file=..)}  &
+\c{journal,'file'} & \c{diary~on} and \c{diary~off}\\
+End session & \c{Ctrl-D or sys.exit()} & \c{q()} & \c{exit or
+Ctrl-D} & \c{exit or quit} \\
+Install packages& \c{pip install ..} & \c{install.package()} & & \\
+Show/Set working path & \c{sys. ..} & \c{getwd()} / \c{setwd(..)}  &
+\c{cd,..,current=curr} & \\
+Comment sign & \c{\#} & \c{\#}  & \c{;} &\\
+\stoptable
+
+\starttable{Help}
+Interactive & \c{help()} & \c{help.start()}  & \c{?}& \c{doc}\\
+Help on function f& \c{help(f)} or \c{?f} or \c{??f} & \c{help(f)} or \c{?f}  &
+\c{?f} & \c{help f}\\
+Demonstration examples & & \c{demo()} or \c{example(plot)} & demo & \\
+Search more help & & \c{help.search('plot')} or \c{apropos('plot')} & & \c{lookfor plot} \\
+Locate function & \c{help(plot)} & \c{find(plot)} & & \c{which plot}  \\
+List methods & \c{dir()} & \c{methods(plot)} & & \\
+Others & & \c{str()} & & \\
+Data Summary & & \c{describe(), summary()} & & \\
+\stoptable
+
+\starttable{Syntax}
+Assignment & \c{a=1; b=1} & {\s\verb|a<-1; b<-2|}  & \c{a=1
+  \& b=2}& \c{a=1; b=2;}\\
+Procedure & & & & \\
+Function & & & & \\
+Return value & \c{return x} & \c{x} (last statement) & \c{return,
+  x} & as assigned \\
+Object Method & & & & \\
+Operator Precedence & \c{func(); x[ind:ind]; x[ind]; x.attr; **; *,/,\%; +,-;}
+\s\verb|<,>,<=,>=,!=,==;| \c{in,not in; not,and,or} & & & \\
+Terminal Output & \c{print(..)} & \c{print()} & \c{print, ..} & \c{}  \\
+Terminal Input & & & & \\
+In place: $a=a+b$ & \c{a+=b} & & \c{a+=b} & \c{a+=b}\\
+In place ops. & & & {\s\verb|+= *= /= #= ##= &&= ..|} & \\
+\stoptable
+
+\starttable{Variables/Types}
+Basic types & \c{int, long, float, complex, bool, str, tuple, list, dict} & \c{character, numeric, integer, complex, logical} &
+\c{int, long, float, complex, string, double, byte, ..} & \\
+Conversion & \c{int(), float()}& \c{as.list, ..} & \c{fix(), float(), ..}& \\
+Type Checks & & \c{is.na(x)} & & \\
+Not a number & \c{nan} & \c{NaN, NA} & \s\verb|!values.f_nan| & \c{NaN}\\
+Infinity & \s\verb|inf, plus_inf| & & \s\verb|!values.f_infinity| & \c{Inf}\\
+Complex number 2+i & \c{2+1j} & \c{2+1i} & \c{complex(2,1)} & \c{2+i}\\
+Real/Imaginary & \np{real(z), z.real, z.imag} & \c{Re(z), Im(z)} &
+\s\verb|real_part(z), imaginary(z)| & \c{real(z), imag(z)} \\
+Abs/Argument & \c{abs(z)} & \c{abs(z), Arg(z)} & \c{abs(z), atan(z,/ph)} &
+\c{abs(z), arg(z)}\\
+Complex conjugate & \np{conj(z)} & \c{Conj(z)} & \c{conj(z)} & \c{conj(z)}\\
+\stoptable
+
+\starttable{Math}
+Basic & \c{+\ -\ *\ /} or \c{//}  & \c{+\ -\ *\ /} or {\s\verb|%/%|}
+& \c{+\ -\ *\ /} & \c{+\ -\ *\ /} or \c{.*\ ./} \\
+Power $a^b$ & \c{a**b} & {\s\verb|a^b|} &
+{\s\verb|a^b|}  & {\s\verb|a.^b|}\\
+Modulo & \np{mod(a,b)} & {\s\verb|a%b|}  & \c{a mod b} & \c{rem(a,b)}\\
+Factorial $a!$ & \m{factorial(a)} & \c{factorial(a)} &
+\c{factorial(a)} & \\[0.2em]
+Round & \np{round()}, \np{ceil()}, \np{floor()} & \c{round()}, \c{ceil()}, \c{floor()} & \c{round()}, \c{ceil()}, \c{floor()} & \c{round()}, \c{ceil()}, \c{floor()}\\
+Round towards zero & \np{fix()} & & \c{fix()} & \c{fix()}\\
+Trigonometry & \multicolumn{4}{c}{\c{sin(), cos(), tan(), asin()} or
+  \c{arcsin(), acos()} or \c{arccos(), atan()} or \c{arctan()} or
+  \c{atan2()}}\\
+Hyperbolic & \multicolumn{4}{c}{\c{sinh(), cosh(), tanh()}}\\
+Others & \np{sqrt()}, \np{log()}, \np{exp()} & \c{sqrt(), log(), exp()} &
+  \c{sqrt(), alog(), exp()} & \c{sqrt(), log(), exp()}\\
+Constants & \m{pi}, \m{e} & \c{pi}, \c{exp(1)}  & \c{!pi}, \c{exp(1)} & \c{pi, exp(1)}\\
+
+{\emph{Relational}} & & & & \\\hline
+Basic & {\s\verb|== < > <= >= !=|} & {\s\verb|== < > <= >= !=|}
+& {\s\verb|eq lt gt le ge ne|} & {\s\verb|== < > <= >= ~=|} \\[0.2em]
+{\emph{Logical}} & & & & \\\hline
+Single-elem & {\s\verb|and or |} & {\s\verb!&& ||!} & {\s\verb!&& ||!} &
+{\s\verb!&& ||!}\\
+Element-wise & {\s\verb|and or |} & {\s\verb!& |!}  &
+{\s\verb!and or!} & {\s\verb!& |!}\\
+XOR & & \c{xor(a,b)} & \c{a xor b} & \c{xor(a,b)} \\
+NOT & \c{not a} & \c{!a} & {\s\verb|~a|} & {\s\verb|~a !a|}\\
+True if any nonzero& & & & \c{any(a)}  \\
+True if all nonzero& & & & \c{all(a)}  \\
+\stoptable
+
+\starttable{Vectors and Matrices}
+Vector 1,3,-4,10& \np{array([1,3,-4,10])}& \c{c(1,3,-4,10)}& \c{[1,3,-4,10]}&
+\c{[1; 3; -4; 10]}\\
+Sequence 1,2,..,10 & \c{range(1,11)}, \np{arange(1,11)}& \c{1:10, seq(1,10)}&
+\c{indgen(10)+1} & \c{1:10}\\
+1,4,7,10 & \np{arange(1,11,3)}& \c{seq(1,10,3)}& \c{indgen(4)*3+1} &
+\c{1:3:10}\\
+Linearly spaced& \np{linspace(1,10,7)}& \c{seq(1,10,len=7)} & &
+\c{linspace(1,10,7)}\\
+Zeros $\scriptsize\bvec{0&0&0&0\\0&0&0&0}$& \np{zeros((2,4))} &
+\c{matrix(0,2,4)}& \c{fltarr(4,2)}& \c{zeros(2,4)}\\
+Ones$\scriptsize\bvec{1&1&1&1\\1&1&1&1}$& \np{ones((2,4))} & \c{matrix(1,2,4)}&
+\c{fltarr(4,2)+1}& \c{ones(2,4)}\\
+Identity matrix& \np{identity(3)}& \c{diag(3)}& \c{identity(3)}& \c{eye(3)}\\
+Diagonal matrix& \np{diag([3,4,5])}& \c{diag(c(3,4,5))}&
+\c{diag\_matrix([3,4,5])}& \c{diag([3 4 5])}\\
+Reverse & \c{a[::-1]} & \c{rev(a)} & \c{reverse(a)} & \c{reverse(a)}\\
+Transpose & \c{a.T} & \c{t(a)}& \c{transpose(a)} & \c{a.'}\\
+Conjugate transpose& \c{a.T.conj()}& \c{Conj(t(a))}& \c{conj(transpose(a))}& \c{a'}\\
+Flatten to 1D& \np{ravel(a)}& & \c{a[*]}& \\
+Flatten by rows& \c{a.flatten()}& \c{as.vector(t(a))}& & \c{a'(:)}\\
+Flatten by columns& \c{a.flatten(1)}& \c{as.vector(a)}&
+\c{(transpose(a))[*]}&\c{a(:)}\\
+Flatten upper triang.& & \c{a[row(a)<=col(a)]}& & \c{vech(a)}\\
+Reshape by rows & \c{a.reshape(2,-1)} or \c{a.setshape(2,3)}&
+\c{matrix(a,nrow=3, byrow=T)}& \c{reform(a,[2,3])} & reshape(a,3,2)'\\
+Reshape by columns& \c{a.reshape(-1,2).T}& \c{matrix(a,nrow=2)}&
+\c{reform(transpose(a),[2,3])}& \c{reshape(a,2,3)}\\
+Flip left-right (mirror horiz)& \np{fliplr(a)} or \c{a[:,::-1]}& \c{a[,4:1]}&
+\c{reverse(a)}& \c{fliplr(a)}\\
+Flip up-down (mirror vert)& \np{flipud(a)} or \c{a[::-1,]}& \c{a[3:1,]}&
+\c{reverse(a,2)}& \c{flipud(a)}\\
+Rotate 90 deg& \np{rot90(a)}& & \c{rotate(a,1)}& \c{rot90(a)}\\
+Repeat matrix & \np{kron(np.ones((2,3)),a)}& \c{kronecker(matrix(1,2,3),a)}& &
+\c{repmat(a,2,3)}\\
+Upper/lower triangular & \np{triu()}, \np{tril()}& \c{a[lower.tri(a)],
+  a[upper.tri(a)]} & & \c{triu(), tril()}\\
+Assign to all & \c{a.fill(3), a[:]=3}& & \c{a[*]=3} & \c{a(:)=3}\\
+Concatenate & \np{concatenate((a,b))} & \c{c(a,b)} & \c{[a,b]}& \c{a b}\\
+Repeat [1,2,1,2,1,2]& \np{concatenate((a,a,a))} & \c{rep(a,imes=3)} &
+\c{[a,a,a], replicate(a,3)} & \c{[a a a]}\\
+Repeat [1,1,1,2,2,2]& \np{repeat(a,3)} & \c{rep(a,each=3)} & &\\
+Max/Min & \np{max(a)}, \np{min(a)} & \c{max(a), min(a)} & \c{max(a), min(a)} &
+\c{max(a), min(a)}\\
+Max/Min position& \np{argmax(a)} & \c{which.max(a)} & \c{v = max(a,pos=i)} &
+\c{[v,i] = max(a)}\\
+Sum (over 1th dim)&\np{sum(a,axis=0)}& \c{colSum(a)}&
+\c{total(a,1)}& \c{sum(a)}\\
+Sum (all elems)& \np{sum(a)}& \c{sum(a)}& \c{total(a)}& \c{sum(sum(a))}\\
+Cumulative sum& \np{cumsum(a)}& \c{cumsum(a)}& \c{total(a,/cum)}&
+\c{cumsum(a)}\\
+Dimensions & \c{a.shape}& \c{dim(a)}& \c{size(a)}& \c{size(a)}\\
+Specific dimensions& \c{a.ndim, a.nbytes, len(a)}& \c{ncol(a), object.size(a)}&
+\c{n\_elements(a)} & \c{length(a), ndims(a)}
+\stoptable
+
+\starttable{Matrices}
+Input $\scriptsize \bvec{2& 3\\4&4}$ & \np{array([[2,3], [4,5]])}&
+\c{array(c(2,3,4,5), c(2,2))}& \c{[[2,3],[4,5]]}& \c{[2 3; 4 5]}\\
+Bind rows& \np{vstack((a,b))}& \c{rbind(a,b)}& \c{[[a],[b]]}& \c{[a; b]}\\
+Bind columns& \np{hstack((a,b))}& \c{cbind(a,b)}& \c{[a,b]}& \c{[a, b]}\\
+Bind slices(3d)& \np{dstack((a,b))}& & \c{[[[a]],[[b]]]}& \\
+Create single vector& \np{concatenate(a,b, axis=None)}& & \c{[a[*],b[*]]}&
+\c{[a(:),b(:)]}\\
+Elementwise operatoins& * / + -& * / + -& * / + - & .* ./ \\
+Matrix multiplication& matrixmultipy(a,b)& \verb|a%*%b|& \verb|a#b  a##b|&a*b\\
+Cross product&&&&\\
+Kronecker product&\np{kron(a,b)}&\c{kronecker(a,b)}&&\c{kron(a,b)}\\
+Solve linear equations&\c{linalg.solve(a,b)}& \c{solve(a,b)}& \c{cramer(a,b)}&
+\verb|a\b|\\
+\stoptable
+
+\starttable{Indexing}
+First row& \c{a[0,]}& \c{a[1,]}& \c{a[*,0]}& \c{a(1,:)}\\
+Element 2,3 (row, col)& \c{a[1,2]}& \c{a[2,3]}& \c{a[2,1]}& \c{a(2,3)}\\
+Array indices& & & \c{a[[0,3],[0,2]]}& \c{a([1 3],[1 4])}\\
+Selection& \c{a[2:]} & \c{a[-1]} & \c{a[1:*]} & \c{a(2:end)}\\
+Last element& \c{a[-1]} & & \s\verb|a[n_elements(a)-1]| & \c{a(end)}\\
+Last 3 rows& \c{a[-3:,:]}& & \c{a[*,n\_elements(a)-3:*]}& \c{a(end-2:end,:)}\\
+Every k-th row& \c{a[::k,:]}& & \c{a[ind,*]} & \c{a(1:2:end,:)}\\
+k-th in last dim& \c{a[...,k]}& & & \\
+All except row 2, col 3& & \c{a[-2,-3]}& & \\
+Diagonal elems& \c{a.diagonal()}& & \c{diag\_matrix(a)}& \\
+Clipping& \c{(a>90).choose(a,90)}& \c{a[a>90]<-90}& \c{a<90}& \c{a(a>90)=90}\\
+& \c{a.clip(min=2,max=90)}& & \c{2>a<90}\\
+\stoptable
+Mathematical indexing: row-number $\times$ column-number: $\scriptsize
+M_{3\times4}=\bvec{a_{11}&a_{12}&a_{13}&a_{14}\\
+  a_{21}&a_{22}&a_{23}&a_{24}\\ a_{31}&a_{32}&a_{33}&a_{34}}$
+
+\starttable{Sorting}
+Sorted values&\np{sort(a)}& \c{sort(a)}& \c{a[sort(a)]}& \c{sort(a)}\\
+Sorted indices& \np{argsort(a)}& \c{order(a)} & \c{sort(a)} & \\
+\stoptable
+
+\starttable{Linear Algebra}
+Element-wise multipl. & \c{a*b}& \c{a*b} & \c{a*b} & \c{a.*b}\\
+Scalar product $\a\cdot\b$ & \np{dot(a,b)} & & \s\verb|transpose(a)#b|& \c{dot(a,b)}\\
+Cross product $\a\times\b$ & \np{dot(a,b)} & & \c{crossp(a,b)} & \\
+\stoptable
+
+
+\starttable{Find}
+Nonzero indices & \np{nonzero(a)[0]} or \np{where(a!=0)[0]} &
+\c{which(a!=0,arr.ind=T)} & \c{where(a ne 0)} & \c{[i j]=find(a)} \\
+Return values & \c{a.compress((a>5).flat)}& \c{which(a>5)}& \c{a[where(a gt
+  5)]}& \c{find(a>5)}\\
+\stoptable
+
+\starttable{Random Numbers}
+Uniform & \np{random.rand()} & \c{runif()} & \c{randomu()} & \c{rand()}\\
+Normal & \np{random.randn()} & \c{rnorm()} & \c{randomn()} & \c{randn()}\\
+\stoptable
+
+%\starttable{Statistics}
+%\stoptable
+
+% \starttable{File in/output}
+% Uniform & \np{random.rand()} & \c{runif()} & \c{randomu()} & \c{rand()}\\
+% Normal & \np{random.randn()} & \c{rnorm()} & \c{randomn()} & \c{randn()}\\
+% \stoptable
+% \starttable{Statistics}
+% \stoptable
+
+
+%\section{Selected Functions}
+
+\ifprivate
+\newpage
+\subsection*{Python}
+\begin{enumerate}
+%\item modules: \c{import, from, as, }
+\item concatenate at 1th, 2nd, 3rd dimensions: \np{hstack((a,b))},
+  \np{vstack((a,b))}, \np{dstack((a,b))}
+\item stats: \url{scipy.stats.binned_statistic} - moving/rolling stats
+\item mutable/non-mutable objects: assignment with copy (deepcopy)
+\item Bitwise operations: \verb.<<, >>, &, |, ~, ^.
+\item Functions:
+  \begin{itemize}
+  \item bin(N) - number to binary (base 2) digits string
+  \item ord(C) - integer code of character (unicode or ascii)
+  \item chr(N) - unicode code number to character string
+  \item hex(N) - number to hexadecimal (base 16) digits string
+  \item oct(N) - number to octal (base 8) digits string
+  \item int(S,n) - base-n digits string to number (e.g. int('0011',2))
+  \end{itemize}
+\item Numpy
+  \begin{itemize}
+  \item For multidimensional data, use np.array (not np.matrix); and
+    then use .dot(), .conj(), and  .T methods and attributes.
+  \item Slicing doesn't return a new array, but a view of of the
+    original. That is, changing b=a[:,1] with b[0]=x will change a as well.
+  \item C-like index order: M[i,j], where j changes fastest $\to$
+    M[0,:] is printed first, as row, M[1,:] is printed next, etc.
+  \item Selecting a dimension in array will always reduce the rank,
+    leading e.g. from 2-d to 1-d (or rank) matrix. Transpose doesn't
+    do anything on 1-d array.
+  \item Array can treat rank-1 arrays as either row or column
+    vectors. For example, \verb|dot(A,v)| treats $v$ as a column
+    vector,
+    while \verb|dot(v,A)| treats $v$ as a row vector.\\
+    The usual mathematical column vector has shape (n,1). To generate,
+    use e.g.: \verb|c_[x]| or \verb|x.reshape((n,1))| or \verb|x[:,newaxis]|.
+  \item Fast array creation: \verb|r_[:10]| or \verb|r_[:10.]| or
+    \verb|r_[:10:2]|. Both, \verb|r_[]| and \verb|c_[]| actually
+    createy arrays by stacking numbers along a row or a column, and
+    \emph{allow} using the ``:'' range slicing operator.
+  \item Submatrix indexing possible, e.g. with \verb|ix_[(ind,ind)]| form.
+  \item Linear indexing is not straightforward. First, reshape to a
+    linear sequence, then perform the operations, and then reshape to
+    original size.
+  \item For array operations along one dimension, use the \emph{axis=}
+    keyword. It starts with 0: axis=0 for operating on each column,
+    axis=1 for operating on each row.
+  \item \emph{Indexing} keyword (e.g.\ meshgrid): 'ij' = matrix, 'xy'
+    = cartesian (default). Ideally, use \emph{indexing='ij'}
+    explicitly:\\
+    \verb|A=meshgrid(:M,:N,:P) => A.shape==(N,M,P); meshgrid(:M,:N,:P,indexing='ij') => A.shape==(M,N,P)|
+  \item Attributes: \emph{ndim, shape, size, dtype,
+      itemsize, T}.
+  \item Creation functions: \emph{array(), zeros(), ones(),
+      eye(), arange(), linspace(), logspace(), empty(),
+      random.random(), copy(), identity(), mgrid(), ogrid(), r()}
+    (they usually take tuples for shape).
+  \item Shape-changing methods: \emph{reshape(), ravel(), transpose(),
+      T, resize()}. If a -1 is given in a reshaping operation, the
+    other dimensions are automatically calculated! Others:
+    \verb|atleast_2d(), mat(), newaxis|.
+  \item Concatenating: \emph{vstack, hstack, column\_stack, row\_stack,
+      concatenate}.
+  \item Questions: \emph{all, any, nonzero, where}.
+  \item Ordering: \emph{argmax, argmin, argsort, max, min, ptp,
+      searchsorted, sort}.
+  \item Operations: \emph{choose, compress, cumprod, cumsum, inner,
+      fill, imag, real, prod, put, putmask, sum}.
+  \item Statistics: \emph{cov, mean, std, var}.
+  \item Linear algebra: \emph{dot, cross, outer, svd, vdot}.
+  \item Others: \emph{histogram()} (similar to IDL)
+  \item More on fancy indexing and more tricks see/click:
+    \href{http://wiki.scipy.org/Tentative_NumPy_Tutorial}{NumPy
+      Tutorial} or
+    \href{http://wiki.scipy.org/NumPy_for_Matlab_Users}{NumPy for
+      Matlab Users}.
+  \end{itemize}
+\item Pylab / Matplotlib
+  \begin{itemize}
+  \item \verb|figsize(x,y) e.g. figsize(13,4)|
+  \item \verb|subplot(yxn) e.g. subplot(121)|
+  \end{itemize}
+\item My conventions:
+  \begin{itemize}
+  \item Multi-dimensional data: [az, rg, pol-channels], if channels
+    should be closer together (for block processing along azimuth).
+  \end{itemize}
+\end{enumerate}
+
+
+
+
+\subsection*{R}
+\begin{enumerate}
+\item loop functions: \c{map; apply, sapply, ..}
+\item modules: {\s\verb|?modname, install.packages|},
+  library(psych)
+\item info on data set: \c{str(data), summary(data), head(data),
+    psych.describe(data)}
+\item accessing list elements: use double square brackets! e.g L[[1]] (using
+  single brackets will give you back a list again)
+\item smoothScatter(x,y) -- great function!!!! 2-d histogram with densities!
+\item plot(x,y,col=rgb(0,0,0,0.2),pch=19) -- if many points, adding transparency
+  helps to see where there more and where less points!
+\end{enumerate}
+%\vspace{0.5em}
+
+\section*{Additional Notes}
+\begin{enumerate}
+% \item Python: assuming a common setup environment with NumPy, SciPy, pyLib,
+%   IPython (np, sp, pl, m)
+\item Lexical scope: Python, R --- Dynamic scope: IDL, Matlab.
+\item Array/matrix indexing:
+  \begin{itemize}
+  \item Zero-based: Python, IDL, C/C++
+  \item One-based: R, Matlab
+  \item Column-major format (data in memory column-by-colum), which is
+    the standard mathematical matrix notation: Python, C/C++.  This
+    \emph{C-like} index order changes the last axis index fastest.\\
+    The fastest-changing axis/dimension is read/written/printed to
+    screen first, therefore, a print command in column-major format
+    will print first a[0,:] on first line, then a[1,:] on second line,
+    etc. If characterizing indices with i,j as in a[i,j], then for the
+    print, x=j, y=i.
+    \begin{align}
+      \bvec{a_{0,0}&a_{0,1}&a_{0,2}\\
+        a_{1,0}& a_{1,1}&a_{1,2}}
+    \end{align}
+  \item Row-major format (row-by-row, useful in image processing):
+    IDL, Fortran. This \emph{Fortran-like} index order changes the
+    first axis index fastest.
+    \begin{align}
+      \bvec{a_{0,0}&a_{1,0}\\
+        a_{0,1}& a_{1,1}}
+    \end{align}
+  \end{itemize}
+%\item Internal array representation:
+%\item First array element:
+\item Python, Matlab, R case sensitive, while IDL is case insensitive.
+%\item IDL: with IDLWave (or alternatively eclipse or the provided environment)
+\end{enumerate}
+
+
+\fi
+
+
+%\let\thefootnote\relax\footnote{There is no number in this footnote}
+
+%\ifpublic
+\let\thefootnote\relax\footnote{2013-2015 Maxim Neumann.\ Last compiled: \small \currenttime, \today.}
+%\fi
+
+% \ifprivate
+% \else
+% \vfill
+% {\small   Last compiled: \small \currenttime, \today.\\
+%   % This reference card was created with \LaTeX\ using the packages longtable,
+%   % savetrees, amsmath. Based on many invaluable resources from the internet.
+% }\\[0.4em]
+% \fi
+
+% \newdate{created}{01}{01}{2013}
+% Created: \displaydate{created}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
