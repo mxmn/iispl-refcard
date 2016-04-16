@@ -3,8 +3,6 @@
 \usepackage{amsmath, amsthm}
 \usepackage{amssymb}
 \usepackage{url}
-%\usepackage[text={7in,26cm}]{geometry}
-%\usepackage[scale={0.9}]{geometry}
 \usepackage{datetime}
 \usdate
 
@@ -30,7 +28,7 @@
 \def\pl#1{{\small\tt pl.#1}}
 \def\sp#1{{\small\tt sp.#1}}
 \def\m#1{{\small\tt m.#1}}
-\def\s{\small}  % only of /verb environments; adjust to same size as in \c
+\def\s{\small}
 
 \def\starttable#1{\begin{longtable}{p{1.4in}p{1.3in}p{1.3in}p{1.3in}p{1.3in}}
     {\bf \emph{#1}} & {\bf\small Python} & {\bf\small R} & {\bf\small IDL} &
@@ -40,33 +38,20 @@
     \hline\endlastfoot
 }
 \def\stoptable{\end{longtable}\vspace{-1em}}
-%\def\R #1|#2|#3|#4|#5{ #1&#2&#3&#4&#5}
-%\def\RR #1&#2&#3&#4&#5{ #1&#2&#3&#4&#5}
-
-
 \hyphenation{example examples diary summary}
 
+
+
 \begin{document}
-%\pagestyle{headings}
+
+
 \begin{center}
   {\large\bfseries Interpreted Interactive Scientific Programming Languages}\\
   Selective and Incomplete Reference Card
 \end{center}
 
 
-%\renewcommand{\verbatim@font}{\ttfamily\small}
-% \renewcommand{\ttdefault}{aett}
-% {\tt just a test}
-% \begin{verbatim}
-% just a test
-% \end{verbatim}
-% \texttt{just a test}\\
-% \verb|just a test|
-
-
-%\verb|ipython -pylab|
-
-\starttable{Start}
+\starttable{ }
 Start session & \c{ipython -pylab} & \c{RStudio} & \c{idl} & \c{octave -q} \\
 Run code from file & \c{execfile('file.py')} or \c{run file.py} &
 \c{source('file.R')} & \c{\@file.pro} or \c{.run file.pro} & \c{file}  \\
@@ -257,7 +242,6 @@ Scalar product $\a\cdot\b$ & \np{dot(a,b)} & & \s\verb|transpose(a)#b|& \c{dot(a
 Cross product $\a\times\b$ & \np{dot(a,b)} & & \c{crossp(a,b)} & \\
 \stoptable
 
-
 \starttable{Find}
 Nonzero indices & \np{nonzero(a)[0]} or \np{where(a!=0)[0]} &
 \c{which(a!=0,arr.ind=T)} & \c{where(a ne 0)} & \c{[i j]=find(a)} \\
@@ -270,37 +254,23 @@ Uniform & \np{random.rand()} & \c{runif()} & \c{randomu()} & \c{rand()}\\
 Normal & \np{random.randn()} & \c{rnorm()} & \c{randomn()} & \c{randn()}\\
 \stoptable
 
-%\starttable{Statistics}
-%\stoptable
-
-% \starttable{File in/output}
-% Uniform & \np{random.rand()} & \c{runif()} & \c{randomu()} & \c{rand()}\\
-% Normal & \np{random.randn()} & \c{rnorm()} & \c{randomn()} & \c{randn()}\\
-% \stoptable
-% \starttable{Statistics}
-% \stoptable
-
-
-%\section{Selected Functions}
-
 
 \newpage
 \subsection*{Python}
 \begin{enumerate}
-%\item modules: \c{import, from, as, }
 \item concatenate at 1th, 2nd, 3rd dimensions: \np{hstack((a,b))},
   \np{vstack((a,b))}, \np{dstack((a,b))}
 \item stats: \url{scipy.stats.binned_statistic} - moving/rolling stats
 \item mutable/non-mutable objects: assignment with copy (deepcopy)
 \item Bitwise operations: \verb.<<, >>, &, |, ~, ^.
-\item Functions:
+\item Selected functions:
   \begin{itemize}
-  \item bin(N) - number to binary (base 2) digits string
-  \item ord(C) - integer code of character (unicode or ascii)
-  \item chr(N) - unicode code number to character string
-  \item hex(N) - number to hexadecimal (base 16) digits string
-  \item oct(N) - number to octal (base 8) digits string
-  \item int(S,n) - base-n digits string to number (e.g. int('0011',2))
+  \item \verb|bin(n), oct(n), hex(n)| - number to binary, octal,
+    hexadecimal digits string
+  \item \verb|ord(c), chr(n)| - integer code of character (unicode or
+    ascii), and reversed
+  \item \verb|int(s,n)| - base-n digits string to number
+    (e.g. int('0011',2))
   \end{itemize}
 \item Numpy
   \begin{itemize}
@@ -372,9 +342,7 @@ Normal & \np{random.randn()} & \c{rnorm()} & \c{randomn()} & \c{randn()}\\
   \end{itemize}
 \end{enumerate}
 
-
-
-
+\newpage
 \subsection*{R}
 \begin{enumerate}
 \item loop functions: \c{map; apply, sapply, ..}
@@ -388,12 +356,9 @@ Normal & \np{random.randn()} & \c{rnorm()} & \c{randomn()} & \c{randn()}\\
 \item plot(x,y,col=rgb(0,0,0,0.2),pch=19) -- if many points, adding transparency
   helps to see where there more and where less points!
 \end{enumerate}
-%\vspace{0.5em}
 
 \section*{Additional Notes}
 \begin{enumerate}
-% \item Python: assuming a common setup environment with NumPy, SciPy, pyLib,
-%   IPython (np, sp, pl, m)
 \item Lexical scope: Python, R --- Dynamic scope: IDL, Matlab.
 \item Array/matrix indexing:
   \begin{itemize}
@@ -419,35 +384,12 @@ Normal & \np{random.randn()} & \c{rnorm()} & \c{randomn()} & \c{randn()}\\
         a_{0,1}& a_{1,1}}
     \end{align}
   \end{itemize}
-%\item Internal array representation:
-%\item First array element:
-\item Python, Matlab, R case sensitive, while IDL is case insensitive.
-%\item IDL: with IDLWave (or alternatively eclipse or the provided environment)
 \end{enumerate}
 
 
-
-
-%\let\thefootnote\relax\footnote{There is no number in this footnote}
-
-
-\let\thefootnote\relax\footnote{Created: 2013-2015 (mxn). Last
-  compiled: \small \today, \currenttime. Under Creative commons
-  license (CC0 1.0 Universal).}
-
-% \vfill
-% {\small   Last compiled: \small \currenttime, \today.\\
-%   % This reference card was created with \LaTeX\ using the packages longtable,
-%   % savetrees, amsmath. Based on many invaluable resources from the internet.
-% }\\[0.4em]
-
-
-% \newdate{created}{01}{01}{2013}
-% Created: \displaydate{created}
+\let\thefootnote\relax\footnote{\\
+  mxn, 2014.\\
+  Last compiled: \small \today, \currenttime.\\
+  Under Creative Commons License (CC0 1.0 Universal).}
 
 \end{document}
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: t
-%%% End:
