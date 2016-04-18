@@ -278,6 +278,8 @@ Normal & \np{random.randn()} & \c{rnorm()} & \c{randomn()} & \c{randn()}\\
     \np{hstack((a,b))}, \np{dstack((a,b))}\\
     (since numpy 1.10): concatenate at n-th dimension:
     \np{stack((a,b),n)}
+  \item Tile (repeat axes): \np{tile(a, [1,4])}; Repeat individual elements
+    (flattened): \np{repeat(a, 4)}
   \item For multidimensional data, use np.array (not np.matrix); and
     then use .dot(), .conj(), and  .T methods and attributes.
   \item Slicing doesn't return a new array, but a view of of the
