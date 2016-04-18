@@ -258,8 +258,6 @@ Normal & \np{random.randn()} & \c{rnorm()} & \c{randomn()} & \c{randn()}\\
 \newpage
 \subsection*{Python}
 \begin{enumerate}
-\item concatenate at 1th, 2nd, 3rd dimensions: \np{hstack((a,b))},
-  \np{vstack((a,b))}, \np{dstack((a,b))}
 \item stats: \url{scipy.stats.binned_statistic} - moving/rolling stats
 \item mutable/non-mutable objects: assignment with copy (deepcopy)
 \item Bitwise operations: \verb.<<, >>, &, |, ~, ^.
@@ -274,6 +272,12 @@ Normal & \np{random.randn()} & \c{rnorm()} & \c{randomn()} & \c{randn()}\\
   \end{itemize}
 \item Numpy
   \begin{itemize}
+  \item Array left-most dim: row; second from left: column.
+  \item Concatenate at 1th (row-wise), 2nd (column-wise), 3rd
+    dimensions: \np{vstack((a,b))},
+    \np{hstack((a,b))}, \np{dstack((a,b))}\\
+    (since numpy 1.10): concatenate at n-th dimension:
+    \np{stack((a,b),n)}
   \item For multidimensional data, use np.array (not np.matrix); and
     then use .dot(), .conj(), and  .T methods and attributes.
   \item Slicing doesn't return a new array, but a view of of the
@@ -393,3 +397,8 @@ Normal & \np{random.randn()} & \c{rnorm()} & \c{randomn()} & \c{randn()}\\
   Under Creative Commons License (CC0 1.0 Universal).}
 
 \end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
